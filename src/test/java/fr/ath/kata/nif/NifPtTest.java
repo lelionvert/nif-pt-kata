@@ -2,6 +2,7 @@ package fr.ath.kata.nif;
 
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ import java.util.stream.Stream;
 public class NifPtTest {
 
     @Test
-    public void validaContribuinte() throws IOException {
+    public void validaContribuinte() {
         NifPt nifPt = new NifPt() {
             @Override
             public void showError() {
@@ -27,6 +28,7 @@ public class NifPtTest {
         };
         String fileName = "C:\\Git\\nif-pt-kata-master\\java\\src\\test\\resources\\results.txt";
 
+        SoftAssertions softAssertions = new SoftAssertions();
         //read file into stream, try-with-resources
         try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
             stream.forEach(line -> {
@@ -34,8 +36,9 @@ public class NifPtTest {
                 String input = split[0];
                 String output = split[1];
 
-                Assertions.assertThat(nifPt.getTemErro(input)).isEqualTo(Integer.parseInt(output));
+                softAssertions.assertThat(nifPt.getTemErro(input)).isEqualTo(Integer.parseInt(output));
             });
+            softAssertions.assertAll();
         } catch (IOException e) {
             e.printStackTrace();
         }
