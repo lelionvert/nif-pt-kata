@@ -10,6 +10,14 @@ public class NifPt {
     }
 
     public void validate(String contribuinte) {
+        int temErro = getTemErro(contribuinte);
+
+        if (temErro == 1) {
+            showError();
+        }
+    }
+
+    public int getTemErro(String contribuinte) {
         // algoritmo de validação do NIF de acordo com
         // http://pt.wikipedia.org/wiki/N%C3%BAmero_de_identifica%C3%A7%C3%A3o_fiscal
 
@@ -60,10 +68,7 @@ public class NifPt {
         if (ultimoDigito != comparador) {
             temErro = 1;
         }
-
-        if (temErro == 1) {
-            showError();
-        }
+        return temErro;
     }
 
     public void showError() {
