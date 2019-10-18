@@ -1,6 +1,8 @@
 package fr.ath.kata.nif;
 
 import javax.swing.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.IntStream;
 
 public class NifPt {
@@ -22,45 +24,27 @@ public class NifPt {
         // algoritmo de validação do NIF de acordo com
         // http://pt.wikipedia.org/wiki/N%C3%BAmero_de_identifica%C3%A7%C3%A3o_fiscal
 
-        int temErro = 0;
+        String[] values = new String[]{"45", "70", "71", "72", "77", "79", "90", "91", "98", "99"};
 
-        if (!contribuinte.substring(0, 1).equals("1") && // pessoa singular
-                !contribuinte.substring(0, 1).equals("2") && // pessoa singular
-                !contribuinte.substring(0, 1).equals("3") && // pessoa singular
-                !contribuinte.substring(0, 2).equals("45") && // pessoa singular não residente
-                !contribuinte.substring(0, 1).equals("5") && // pessoa colectiva
-                !contribuinte.substring(0, 1).equals("6") && // administração pública
-                !contribuinte.substring(0, 2).equals("70") && // herança indivisa
-                !contribuinte.substring(0, 2).equals("71") && // pessoa colectiva não residente
-                !contribuinte.substring(0, 2).equals("72") && // fundos de investimento
-                !contribuinte.substring(0, 2).equals("77") && // atribuição oficiosa
-                !contribuinte.substring(0, 2).equals("79") && // regime excepcional
-                !contribuinte.substring(0, 1).equals("8") && // empresário em nome individual (extinto)
-                !contribuinte.substring(0, 2).equals("90") && // condominios e sociedades irregulares
-                !contribuinte.substring(0, 2).equals("91") && // condominios e sociedades irregulares
-                !contribuinte.substring(0, 2).equals("98") && // não residentes
-                !contribuinte.substring(0, 2).equals("99") // sociedades civis
+        if ("123568".contains(contribuinte.substring(0, 1)) || Arrays.asList(values).contains(contribuinte.substring(0, 2))) {
+            int total = 0;
+            for (int i = 0; i < 8; i++) {
+                total += Integer.parseInt(contribuinte.substring(i, i + 1)) * (9 - i);
+            }
 
-        ) {
-            temErro = 1;
+            int modulo11 = total % 11;
+            int comparador = 0;
+            if (modulo11 > 1) {
+                comparador = 11 - modulo11;
+            }
+
+            int ultimoDigito = Integer.parseInt(contribuinte.substring(8, 9));
+            if (ultimoDigito == comparador) {
+                return 0;
+            }
         }
+        return 1;
 
-        int total = 0;
-        for (int i = 0; i < 8; i++) {
-            total += Integer.parseInt(contribuinte.substring(i, i + 1)) * (9 - i);
-        }
-
-        int modulo11 = total % 11;
-        int comparador =0;
-        if (modulo11 > 1) {
-            comparador = 11 - modulo11;
-        }
-
-        int ultimoDigito = Integer.parseInt(contribuinte.substring(8, 9));
-        if (ultimoDigito != comparador) {
-            temErro = 1;
-        }
-        return temErro;
     }
 
     public void showError() {
