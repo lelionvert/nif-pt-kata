@@ -27,16 +27,11 @@ public class NifPt {
         String[] values = new String[]{"45", "70", "71", "72", "77", "79", "90", "91", "98", "99"};
 
         if ("123568".contains(contribuinte.substring(0, 1)) || Arrays.asList(values).contains(contribuinte.substring(0, 2))) {
-            int total = 0;
-            for (int i = 0; i < 8; i++) {
-                total += Integer.parseInt(contribuinte.substring(i, i + 1)) * (9 - i);
-            }
-
+            int total = IntStream.range(0, 8)
+                    .map(i -> Integer.parseInt(contribuinte.substring(i, i + 1)) * (9 - i))
+                    .sum();
             int modulo11 = total % 11;
-            int comparador = 0;
-            if (modulo11 > 1) {
-                comparador = 11 - modulo11;
-            }
+            int comparador = modulo11 > 1 ? 11 - modulo11 : 0;
 
             int ultimoDigito = Integer.parseInt(contribuinte.substring(8, 9));
             if (ultimoDigito == comparador) {
@@ -44,7 +39,6 @@ public class NifPt {
             }
         }
         return 1;
-
     }
 
     public void showError() {
