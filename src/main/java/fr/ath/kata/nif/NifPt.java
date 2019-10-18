@@ -1,6 +1,7 @@
 package fr.ath.kata.nif;
 
 import javax.swing.*;
+import java.util.stream.IntStream;
 
 public class NifPt {
 
@@ -43,18 +44,14 @@ public class NifPt {
         ) {
             temErro = 1;
         }
-        int check1 = Integer.parseInt(contribuinte.substring(0, 1)) * 9;
-        int check2 = Integer.parseInt(contribuinte.substring(1, 2)) * 8;
-        int check3 = Integer.parseInt(contribuinte.substring(2, 3)) * 7;
-        int check4 = Integer.parseInt(contribuinte.substring(3, 4)) * 6;
-        int check5 = Integer.parseInt(contribuinte.substring(4, 5)) * 5;
-        int check6 = Integer.parseInt(contribuinte.substring(5, 6)) * 4;
-        int check7 = Integer.parseInt(contribuinte.substring(6, 7)) * 3;
-        int check8 = Integer.parseInt(contribuinte.substring(7, 8)) * 2;
 
-        int total = check1 + check2 + check3 + check4 + check5 + check6 + check7 + check8;
-        int divisao = total / 11;
-        int modulo11 = total - divisao * 11;
+        int total = 0;
+        for (int i = 0; i < 8; i++) {
+            total += Integer.parseInt(contribuinte.substring(i, i + 1)) * (9 - i);
+        }
+
+
+        int modulo11 = total % 11;
         int comparador;
         if (modulo11 == 1 || modulo11 == 0) {
             comparador = 0;
