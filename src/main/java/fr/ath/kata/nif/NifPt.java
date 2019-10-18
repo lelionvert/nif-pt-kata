@@ -50,16 +50,11 @@ public class NifPt {
             total += Integer.parseInt(contribuinte.substring(i, i + 1)) * (9 - i);
         }
 
-
         int modulo11 = total % 11;
-        int comparador;
-        if (modulo11 == 1 || modulo11 == 0) {
-            comparador = 0;
-        } // excepção
-        else {
+        int comparador =0;
+        if (modulo11 > 1) {
             comparador = 11 - modulo11;
         }
-
 
         int ultimoDigito = Integer.parseInt(contribuinte.substring(8, 9));
         if (ultimoDigito != comparador) {
